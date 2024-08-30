@@ -1,23 +1,21 @@
 "use client";
+import { Loader } from "@/components/Loader";
 import { Logo } from "@/components/Logo";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { useGetPincodePlace } from "@/hooks/useGetPincodePlace";
-import IndiaPost from "@/public/icons/india-post.svg";
 import { Form, Formik } from "formik";
-import { useScroll, motion, useSpring, AnimatePresence } from "framer-motion";
-import { Locate, MapPin, Search } from "lucide-react";
-import Image from "next/image";
+import { AnimatePresence, motion, useScroll } from "framer-motion";
+import { Loader2Icon, MapPin } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
 import * as Yup from "yup";
 
 const InfoItem = ({ title, value }: { title: string; value: string }) => {
   return (
     <div>
       <p className="text-white/60">{title}</p>
-      <p>{value}</p>
+      <p className="text-white">{value}</p>
     </div>
   );
 };
@@ -49,9 +47,10 @@ const Pincode = () => {
         style={{
           scaleX: scrollYProgress,
         }}
-        className="sticky top-0 left-0 right-0 origin-[0%] h-2 bg-gradient-to-r from-red-400 to-green-500"
+        className="sticky top-0 left-0 right-0 origin-[0%] h-1.5 bg-white z-10"
       />
-      <section className="w-full lg:p-12 md:p-12 p-4">
+
+      <section className="w-full lg:p-10 md:p-10 p-4">
         <div className="flex flex-col justify-center space-y-6 ">
           <Formik
             initialValues={{ pincode }}
@@ -63,53 +62,60 @@ const Pincode = () => {
             })}
           >
             {({ values, handleChange, handleBlur }) => (
-              <Form className="flex items-center gap-4 w-full sticky top-3 px-3 z-10">
-                <Logo />
-                <div className="w-full rounded-lg bggradient-sand">
+              <Form className="sticky top-3 z-10">
+                <fieldset
+                  className="flex items-center gap-4 w-full px-3"
+                  disabled={isLoading}
+                >
+                  <Logo />
                   <Input
                     type="number"
                     minLength={6}
                     name="pincode"
                     placeholder="Search new pincode"
-                    className="w-full rounded-lg bg-white/10 px-4 py-2 text-white placeholder:text-white/80 focus:outline-none focus:ring-2 focus:ring-white/50"
+                    className="bg-gray-800 border-gray-700 text-white placeholder-gray-500"
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.pincode}
                   />
-                  <Button
-                    type="submit"
-                    className="absolute right-7 top-1/2 -translate-y-1/2"
-                    size="icon"
-                    variant="ghost"
-                    loading={isLoading}
-                    disabled={isLoading}
-                  >
-                    <Search />
+                  <Button className="bg-purple-600 hover:bg-purple-700 text-white">
+                    {isLoading ? (
+                      <Loader2Icon className="animate-spin mr-2 h-4 w-4" />
+                    ) : (
+                      <MapPin className="mr-2 h-4 w-4" />
+                    )}
+                    Search
                   </Button>
-                </div>
+                </fieldset>
               </Form>
             )}
           </Formik>
+          {isLoading && (
+            <motion.div className="h-16 w-16 animate-pulse" layout key="loader">
+              <Loader />
+            </motion.div>
+          )}
           {!isLoading && (
             <motion.h1
               key={message}
               layout
-              className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none text-white"
+              initial={{
+                opacity: 0,
+                x: "-20px",
+              }}
+              animate={{
+                opacity: 1,
+                x: 0,
+              }}
+              transition={{
+                duration: 0.4,
+              }}
+              className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-500"
             >
               {error?.message}
             </motion.h1>
           )}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {isLoading && (
-              <>
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <Card
-                    key={i}
-                    className="animate-pulse bg-white/30 border-none h-96"
-                  ></Card>
-                ))}
-              </>
-            )}
             <AnimatePresence initial={false}>
               {postOffice?.map(
                 (
@@ -158,10 +164,14 @@ const Pincode = () => {
                         zIndex: 1,
                       }}
                     >
-                      <Card className="text-white/80 bg-black/10 text-white rounded-lg shadow-lg select-none">
-                        <CardHeader>
+                      <Card
+                        role="button"
+                        autoFocus
+                        className={`bg-gray-900 border-gray-800 transition-all duration-300 hover:ring-2 hover:ring-purple-500 hover:shadow-lg hover:shadow-purple-500/20 select-none group`}
+                      >
+                        <CardHeader className="text-white">
                           <CardTitle className="flex items-center gap-3">
-                            <MapPin />
+                            <MapPin className="group-hover:text-pink-400 group-hover:scale-150 group-hover:rotate-360 transition-all duration-500" />
                             <span className="text-xl font-semibold">
                               {Name}
                             </span>

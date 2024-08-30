@@ -13,6 +13,12 @@ export type PostOffice = {
   Pincode: string;
 };
 
+export type PostofficePincode = {
+  Status: "Success" | "404" | "Error";
+  PostOffice: Omit<PostOffice, "Block">[];
+  Message: string;
+};
+
 export type PincodePlace = {
   Status: "Success" | "404" | "Error";
   PostOffice: PostOffice[];
