@@ -39,7 +39,7 @@ export default function Footer() {
       </p>
       <div className="flex gap-4">
         {saoicalMedia.map(({ icon: Icon, name, url }) => (
-          <Button variant="ghost" size="icon" asChild>
+          <Button variant="ghost" size="icon" key={name}>
             <Link href={url} target="_blank" rel="noreferrer">
               <Icon className="h-5 w-5" />
             </Link>
