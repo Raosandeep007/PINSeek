@@ -75,8 +75,6 @@ export const metadata: Metadata = {
     "india postal code search by area",
     "india postal code search by region",
   ],
-  viewport: "width=device-width, initial-scale=1",
-  themeColor: "#000000",
   robots: "index, follow",
   publisher: "Sandeep yadav",
   applicationName: "PINSeek",
@@ -89,7 +87,6 @@ export const metadata: Metadata = {
   ],
   generator: "PINSeek",
   referrer: "no-referrer",
-  colorScheme: "dark light",
   openGraph: {
     type: "website",
     locale: "en_US",
@@ -99,7 +96,7 @@ export const metadata: Metadata = {
     description: "A simple app to find your PIN code by Sandeep yadav",
     images: [
       {
-        url: new URL("../public/india-post.svg", import.meta.url),
+        url: new URL("https://avatars.githubusercontent.com/u/92537906?v=4"),
         width: 800,
         height: 600,
         alt: "A simple app to find your PIN code",
