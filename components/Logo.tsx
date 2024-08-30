@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import React from "react";
-import IndiaPost from "@/public/icons/india-post.svg";
+import IndiaPost from "@/public/india-post.svg";
 import Link from "next/link";
 
 export const Logo = () => {

@@ -51,7 +51,7 @@ const Pincode = () => {
         className="sticky top-0 left-0 right-0 origin-[0%] h-1.5 bg-white z-10"
       />
 
-      <section className="w-full lg:p-10 md:p-10 p-4">
+      <section className="w-full lg:p-10 md:p-10 p-4 min-h-dvh">
         <div className="flex flex-col justify-center space-y-6 ">
           <Formik
             initialValues={{ pincode }}
