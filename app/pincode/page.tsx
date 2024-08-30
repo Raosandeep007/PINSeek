@@ -9,6 +9,7 @@ import { Form, Formik } from "formik";
 import { AnimatePresence, motion, useScroll } from "framer-motion";
 import { Loader2Icon, MapPin } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 import * as Yup from "yup";
 
 const InfoItem = ({ title, value }: { title: string; value: string }) => {
@@ -205,4 +206,10 @@ const Pincode = () => {
   );
 };
 
-export default Pincode;
+export default function Page() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <Pincode />
+    </Suspense>
+  );
+}
