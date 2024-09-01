@@ -45,9 +45,9 @@ const SearchCard = ({
 export default function Home() {
   const router = useRouter();
   const { analytics } = useJune();
-  const { userAgent, productSub } = navigator;
 
   useEffect(() => {
+    const { userAgent, productSub } = navigator;
     if (analytics) {
       analytics.page("HOME_PAGE");
       analytics.identify(productSub, {
