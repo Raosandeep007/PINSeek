@@ -45,13 +45,13 @@ const SearchCard = ({
 export default function Home() {
   const router = useRouter();
   const { analytics } = useJune();
+  const { userAgent, productSub } = navigator;
 
   useEffect(() => {
     if (analytics) {
       analytics.page("HOME_PAGE");
-      analytics.identify({
-        name: "Sandeep yadav",
-        email: "ss@yadav.com",
+      analytics.identify(productSub, {
+        userAgent,
       });
     }
   }, [analytics]);

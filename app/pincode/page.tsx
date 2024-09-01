@@ -60,7 +60,7 @@ const Pincode = () => {
       if (error) {
         analytics.track(SEARCH_BY_PINCODE_ERROR, {
           pincode,
-          error,
+          error: error?.message,
         });
       }
     }

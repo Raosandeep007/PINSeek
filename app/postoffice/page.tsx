@@ -60,7 +60,7 @@ const PostOffice = () => {
       if (error) {
         analytics.track(SEARCH_BY_POSTOFFICE_ERROR, {
           postoffice,
-          error,
+          error: error?.message,
         });
       }
     }
