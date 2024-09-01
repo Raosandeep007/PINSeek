@@ -4,12 +4,18 @@ import { Logo } from "@/components/Logo";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import {
+  SEARCH_BY_PINCODE,
+  SEARCH_BY_PINCODE_ERROR,
+  SEARCH_BY_PINCODE_SUCCESS,
+} from "@/constants/analyticEvents";
+import { useJune } from "@/hooks/useAnalytics";
 import { useGetPincodePlace } from "@/hooks/useGetPincodePlace";
 import { Form, Formik } from "formik";
 import { AnimatePresence, motion, useScroll } from "framer-motion";
 import { Loader2Icon, MapPin } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
 import * as Yup from "yup";
 
 const InfoItem = ({ title, value }: { title: string; value: string }) => {
@@ -22,6 +28,7 @@ const InfoItem = ({ title, value }: { title: string; value: string }) => {
 };
 
 const Pincode = () => {
+  const { analytics } = useJune();
   const router = useRouter();
   const search = useSearchParams();
   const pincode = search.get("pincode") || "";
@@ -41,6 +48,23 @@ const Pincode = () => {
   const { message, data: postOffice } = data || {};
 
   const { scrollYProgress } = useScroll();
+
+  useEffect(() => {
+    if (analytics && pincode) {
+      if (data) {
+        analytics.track(SEARCH_BY_PINCODE_SUCCESS, {
+          pincode,
+          data,
+        });
+      }
+      if (error) {
+        analytics.track(SEARCH_BY_PINCODE_ERROR, {
+          pincode,
+          error,
+        });
+      }
+    }
+  }, [analytics, pincode, data, error]);
 
   return (
     <>

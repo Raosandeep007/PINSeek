@@ -9,9 +9,15 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import {
+  SEARCH_BY_PINCODE,
+  SEARCH_BY_POSTOFFICE,
+} from "@/constants/analyticEvents";
+import { useJune } from "@/hooks/useAnalytics";
 import { Form, Formik } from "formik";
 import { MapPin, Search } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import * as Yup from "yup";
 
 const SearchCard = ({
@@ -38,6 +44,18 @@ const SearchCard = ({
 
 export default function Home() {
   const router = useRouter();
+  const { analytics } = useJune();
+
+  useEffect(() => {
+    if (analytics) {
+      analytics.page("HOME_PAGE");
+      analytics.identify({
+        name: "Sandeep yadav",
+        email: "ss@yadav.com",
+      });
+    }
+  }, [analytics]);
+
   return (
     <section className="py-12 md:py-24 lg:py-32 text-white container px-4 md:px-6 flex flex-col items-center text-center mb-12 justify-center space-y-6">
       <div className="flex flex-col items-center text-center space-y-4 mb-12">
@@ -60,6 +78,9 @@ export default function Home() {
             <Formik
               initialValues={{ pincode: "" }}
               onSubmit={(e) => {
+                analytics?.track(SEARCH_BY_PINCODE, {
+                  pincode: e.pincode,
+                });
                 router.push(`/pincode?pincode=${e.pincode}`);
               }}
               validationSchema={Yup.object().shape({
@@ -106,6 +127,9 @@ export default function Home() {
             <Formik
               initialValues={{ postoffice: "" }}
               onSubmit={(e) => {
+                analytics?.track(SEARCH_BY_POSTOFFICE, {
+                  pincode: e.postoffice,
+                });
                 router.push(`/postoffice?postoffice=${e.postoffice}`);
               }}
               validationSchema={Yup.object().shape({

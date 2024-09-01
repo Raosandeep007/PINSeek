@@ -4,12 +4,18 @@ import { Logo } from "@/components/Logo";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import {
+  SEARCH_BY_POSTOFFICE,
+  SEARCH_BY_POSTOFFICE_ERROR,
+  SEARCH_BY_POSTOFFICE_SUCCESS,
+} from "@/constants/analyticEvents";
+import { useJune } from "@/hooks/useAnalytics";
 import { useGetPlacePincode } from "@/hooks/useGetPlacePincode";
 import { Form, Formik } from "formik";
 import { AnimatePresence, motion, useScroll } from "framer-motion";
 import { Loader2Icon, MapPin, Search } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
 import * as Yup from "yup";
 
 const InfoItem = ({ title, value }: { title: string; value: string }) => {
@@ -22,6 +28,7 @@ const InfoItem = ({ title, value }: { title: string; value: string }) => {
 };
 
 const PostOffice = () => {
+  const { analytics } = useJune();
   const router = useRouter();
   const search = useSearchParams();
   const postoffice = search.get("postoffice") || "";
@@ -41,6 +48,23 @@ const PostOffice = () => {
   const { message, data: postOffice } = data || {};
 
   const { scrollYProgress } = useScroll();
+
+  useEffect(() => {
+    if (analytics && postoffice) {
+      if (data) {
+        analytics.track(SEARCH_BY_POSTOFFICE_SUCCESS, {
+          postoffice,
+          data,
+        });
+      }
+      if (error) {
+        analytics.track(SEARCH_BY_POSTOFFICE_ERROR, {
+          postoffice,
+          error,
+        });
+      }
+    }
+  }, [analytics, postoffice, data, error]);
 
   return (
     <>
