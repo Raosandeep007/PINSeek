@@ -9,8 +9,13 @@ export const useJune = () => {
 
   useEffect(() => {
     const loadAnalytics = async () => {
+      if (!writeKey) {
+        console.error("No write key provided");
+        return;
+      }
+
       let response = AnalyticsBrowser.load({
-        writeKey: "54VFegy6rIyYksdE",
+        writeKey,
       });
       setAnalytics(response);
     };
