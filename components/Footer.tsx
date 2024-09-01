@@ -1,4 +1,8 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
+import { SOCIAL_MEDIA_CLICKED } from "@/constants/analyticEvents";
+import { useJune } from "@/hooks/useAnalytics";
 import { Github } from "@/public/icons/Github";
 import { Twitter } from "@/public/icons/Twitter";
 import { Linkedin, Mail } from "lucide-react";
@@ -24,6 +28,13 @@ const saoicalMedia = [
 ];
 
 export default function Footer() {
+  const { analytics } = useJune();
+  const saoicalMediaClicked = (name: string, url: string) => {
+    analytics?.track(SOCIAL_MEDIA_CLICKED, {
+      name,
+      url,
+    });
+  };
   return (
     <footer className="w-full border-t border-border bg-background flex flex-col items-center justify-between gap-2 md:flex-row p-2">
       <p className="text-center text-sm leading-loose text-muted-foreground md:text-left flex items-center gap-1">
@@ -39,7 +50,13 @@ export default function Footer() {
       </p>
       <div className="flex gap-4">
         {saoicalMedia.map(({ icon: Icon, name, url }) => (
-          <Link href={url} target="_blank" rel="noreferrer" key={name}>
+          <Link
+            href={url}
+            target="_blank"
+            rel="noreferrer"
+            key={name}
+            onClick={() => saoicalMediaClicked(name, url)}
+          >
             <Button variant="ghost" size="icon">
               <Icon className="h-5 w-5" />
             </Button>
