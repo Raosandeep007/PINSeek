@@ -9,12 +9,10 @@ export const useJune = () => {
 
   useEffect(() => {
     const loadAnalytics = async () => {
-      if (writeKey) {
-        let response = AnalyticsBrowser.load({
-          writeKey,
-        });
-        setAnalytics(response);
-      }
+      let response = AnalyticsBrowser.load({
+        writeKey: "54VFegy6rIyYksdE",
+      });
+      setAnalytics(response);
     };
     loadAnalytics();
   }, [writeKey]);
