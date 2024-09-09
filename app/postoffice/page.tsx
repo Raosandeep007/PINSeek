@@ -114,7 +114,11 @@ const PostOffice = () => {
             )}
           </Formik>
           {isLoading && (
-            <motion.div className="h-16 w-16 animate-pulse" layout key="loader">
+            <motion.div
+              className="w-full flex items-center justify-center h-80"
+              layout
+              key="loader"
+            >
               <Loader />
             </motion.div>
           )}
