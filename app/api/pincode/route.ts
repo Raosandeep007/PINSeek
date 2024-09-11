@@ -1,5 +1,5 @@
 import { PincodePlace } from "@/types/models/Pincode";
-import { NextResponse, NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
   const pincode = request.nextUrl.searchParams.get("pincode");
